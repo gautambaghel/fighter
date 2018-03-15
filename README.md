@@ -57,6 +57,7 @@ For more info visit - [Course Webpage](http://www.ccs.neu.edu/home/ntuck/courses
 ## Authors
 
 * **Gautam Baghel** - *Initial work* - [Github](https://github.com/gautambaghel)
+* **Sophia Ho** - *Initial work* - [Github](https://github.com/sophiaho)
 
 ## Guides
 
