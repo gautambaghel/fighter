@@ -3,6 +3,7 @@ defmodule FighterWeb.UserSocket do
 
   ## Channels
   # channel "room:*", FighterWeb.RoomChannel
+  channel "games:*", FighterWeb.GamesChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
