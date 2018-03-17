@@ -14,6 +14,8 @@ defmodule Fighter.Application do
       supervisor(FighterWeb.Endpoint, []),
       # Start your own worker by calling: Fighter.Worker.start_link(arg1, arg2, arg3)
       # worker(Fighter.Worker, [arg1, arg2, arg3]),
+
+      worker(Fighter.GameBackup, []),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

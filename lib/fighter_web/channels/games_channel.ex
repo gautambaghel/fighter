@@ -1,6 +1,8 @@
 defmodule FighterWeb.GamesChannel do
   use FighterWeb, :channel
 
+  alias Fighter.Game
+
 """
   def join("games:lobby", payload, socket) do
     if authorized?(payload) do
@@ -13,12 +15,11 @@ defmodule FighterWeb.GamesChannel do
 
   def join("games:" <> name, payload, socket) do
     if authorized?(payload) do
-      # game = Game.new()
+      game =  Fighter.GameBackup.load(name) || Game.new()
       socket = socket
-      #|> assign(:game, game)
+      |> assign(:game, game)
       |> assign(:name, name)
-      #{:ok, %{"join" => name, "game" => Game.client_view(game)}, socket}
-      {:ok, %{"join" => name}, socket}
+      {:ok, %{"join" => name, "game" => Game.client_view(game)}, socket}
     else
       {:error, %{reason: "unauthorized"}}
     end
