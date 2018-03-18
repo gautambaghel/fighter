@@ -16,13 +16,33 @@
 
   <body>
     <div class="container">
+      <div class="row">
+      <%= if @current_user do %>
+        <div class="col">
+          <p class="p-4">
+            Fighter: &nbsp; <%= link "lobby", to: page_path(@conn, :lobby) %> 
+          </p>
+        </div>
+        <div class="col-4 offset-6">
+          <p class="p-4">
+            Logged in as: <%= link @current_user.name, to: user_path(@conn, :show, @current_user.id) %> |
+            <%= link "Log Out", to: "/session", method: :delete %>
+          </p>
+        </div>
 
-        <%= if get_flash(@conn, :info) do %>
-          <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-        <% end %>
-        <%= if get_flash(@conn, :error) do %>
-          <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-        <% end %>
+      <% else %>
+        <div class="col-3 offset-9">
+          <p>Not logged in.</p>
+        </div>
+      <% end %>
+    </div>
+
+      <%= if get_flash(@conn, :info) do %>
+        <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <% end %>
+      <%= if get_flash(@conn, :error) do %>
+        <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <% end %>
 
       <main role="main">
         <%= render @view_module, @view_template, assigns %>

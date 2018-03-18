@@ -5,8 +5,12 @@ defmodule FighterWeb.PageController do
     render conn, "index.html"
   end
 
+  def lobby(conn, _params) do
+    render conn, "lobby.html"
+  end
+
   def game(conn, params) do
-    render conn, "game.html", game: params["game"], players: params["players"]
+    render conn, "game.html", game: params["game"]
   end
 
 end

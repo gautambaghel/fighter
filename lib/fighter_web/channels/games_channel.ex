@@ -11,11 +11,13 @@ defmodule FighterWeb.GamesChannel do
       {:error, %{reason: "unauthorized"}}
     end
   end
+  
 """
 
   def join("games:" <> name, payload, socket) do
     if authorized?(payload) do
       game =  Fighter.GameBackup.load(name) || Game.new()
+      Fighter.GameBackup.get_state
       socket = socket
       |> assign(:game, game)
       |> assign(:name, name)

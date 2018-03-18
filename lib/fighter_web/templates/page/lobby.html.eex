@@ -1,0 +1,16 @@
+<script>
+	function join() {
+		var name = document.getElementById("box").value
+		window.location.href = "/game/"+ name
+	}
+</script>
+<h1>Fighter Game: Lobby</h1>
+
+<br>
+<div class="row">
+  <div class="col">
+    <h1 id="index-page">Join a Game</h1>
+    <input type="text" id="box"/> 
+    <input type="button" onclick="join()" value="Join">
+  </div>
+</div>
