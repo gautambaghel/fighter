@@ -9,6 +9,7 @@ export default function game_init(root, channel) {
 class Fighter extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {};
     this.channel = props.channel;
     this.state = {
       hp1 : 500,
@@ -22,6 +23,10 @@ class Fighter extends React.Component {
         .receive("error", resp => { console.log("Unable to join", resp) });
     }
 
+    saveState() {
+         this.channel.push("saveState", {"hp1": 250})
+           .receive("ok", this.gotView.bind(this));
+       }
     gotView(view) {
       this.setState(view.game);
     }
@@ -33,6 +38,13 @@ his tutorial is not used as it doesn't apply. */
 
   render() {
     return (
+      <div>
+      <div className="row">
+         <div className="save-button">
+             <Button onClick={ () => {this.saveState();} }>Save</Button>
+          </div>
+      </div>
+
       <div className="row">
            <div id="app">
              <div className="battle-scene">
@@ -72,6 +84,8 @@ his tutorial is not used as it doesn't apply. */
               </div>
             </div>
           </div>
+        </div>
+
         </div>
     );
 

@@ -16,5 +16,9 @@ defmodule Fighter.GameBackup do
       Map.get(state, name)
     end
   end
+
+  def get_state do
+    Agent.get(__MODULE__, fn list -> list end)
+  end
   
 end
