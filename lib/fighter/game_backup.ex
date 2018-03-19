@@ -18,7 +18,7 @@ defmodule Fighter.GameBackup do
   end
 
   def get_state do
-    Agent.get(__MODULE__, fn list -> IO.inspect(list) end)
+    Agent.get(__MODULE__, fn list -> list end)
   end
   
 end

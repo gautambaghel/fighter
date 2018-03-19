@@ -9,6 +9,7 @@ export default function game_init(root, channel) {
 class Fighter extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {};
     this.channel = props.channel;
     this.channel.join()
         .receive("ok", this.gotView.bind(this))
@@ -19,11 +20,24 @@ class Fighter extends React.Component {
       this.setState(view.game);
     }
 
+    saveState() {
+      this.channel.push("saveState", {"clickedTiles": 5})
+        .receive("ok", this.gotView.bind(this));
+    }
+
   render() {
     return (
-      <div className="row">
-         <h2> --- Rendering THIS --- </h2>
-      </div> 
+      <div>
+        <div className="row">
+           <h2> --- Rendering THIS --- </h2>
+        </div> 
+
+        <div className="row">
+           <div className="save-button">
+             <Button onClick={ () => {this.saveState();} }>Save</Button>
+           </div>
+        </div> 
+      </div>
     );
 
   }

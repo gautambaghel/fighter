@@ -8,9 +8,29 @@
 
 <br>
 <div class="row">
-  <div class="col">
-    <h1 id="index-page">Join a Game</h1>
+  <div class="col-md-6">
+    <h2 id="index-page">Join a Game</h2>
     <input type="text" id="box"/> 
     <input type="button" onclick="join()" value="Join">
+  </div>
+
+  <div class="col-md-6">
+	<h2>Active Sessions</h2>
+
+	<table class="table table-bordered table-striped">
+	  <tr>
+	    <th>Name</th>
+	    <th>Players</th>
+	    <th>Spectators</th>
+	  </tr>
+
+      <%= for {key, value} <- @sessions do %>
+	  <tr>
+        <td><%= key %></td>
+        <td><%= value.clickedTiles %></td>
+        <td><%= value.points %></td>
+	  </tr>
+	  <% end %>
+	</table>
   </div>
 </div>

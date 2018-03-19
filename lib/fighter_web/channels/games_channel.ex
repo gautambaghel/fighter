@@ -17,7 +17,6 @@ defmodule FighterWeb.GamesChannel do
   def join("games:" <> name, payload, socket) do
     if authorized?(payload) do
       game =  Fighter.GameBackup.load(name) || Game.new()
-      Fighter.GameBackup.get_state
       socket = socket
       |> assign(:game, game)
       |> assign(:name, name)
@@ -25,6 +24,13 @@ defmodule FighterWeb.GamesChannel do
     else
       {:error, %{reason: "unauthorized"}}
     end
+  end
+
+  def handle_in("saveState", %{"clickedTiles" => ct}, socket) do
+     game = Game.guess(socket.assigns[:game], ct)
+     Fighter.GameBackup.save(socket.assigns[:name], game)
+     socket = assign(socket, :game, game)
+     {:reply, {:ok, %{ "game" => Game.client_view(game)}}, socket}
   end
 
   # Channels can be used in a request/response fashion
