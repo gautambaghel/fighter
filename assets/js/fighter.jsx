@@ -38,15 +38,12 @@ his tutorial is not used as it doesn't apply. */
 
   render() {
     return (
-      <div>
+      <div className="game-page">
       <div className="row">
-         <div className="save-button">
-             <Button onClick={ () => {this.saveState();} }>Save</Button>
-          </div>
       </div>
 
       <div className="row">
-           <div id="app">
+           <div>
              <div className="battle-scene">
                <div className="box-top-left">
                  <h2 className="fighter"></h2>
@@ -85,6 +82,10 @@ his tutorial is not used as it doesn't apply. */
             </div>
           </div>
         </div>
+
+        <div className="save-button">
+            <Button onClick={ () => {this.saveState();} }>Save</Button>
+         </div>
 
         </div>
     );

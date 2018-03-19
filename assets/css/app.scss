@@ -10,14 +10,13 @@ his tutorial is not used as it doesn't apply. */
 
 @import url('https://fonts.googleapis.com/css?family=PT+Sans+Narrow');
 
-html,body{
+.game-page{
   height: 100%;
   background: #3C7ACD;
-}
-body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+  padding: 50px;
 }
 
 .title{
@@ -32,13 +31,20 @@ body {
 
 .battle-scene{
   position: relative;
-  margin: auto;
+  margin: 0 auto;
   display: block;
-  margin-top: 3%;
+  justify-content: center;
+  align-items: center;
   width: 600px;
   height: 420px;
   background: #F8F8F8;
   z-index: 1;
+}
+
+.save-button{
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
 }
 
 .box-top-left{
