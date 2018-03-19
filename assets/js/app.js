@@ -11,21 +11,21 @@
 //
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
-import "phoenix_html"
+import "phoenix_html";
 
 // Import local files
 //
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import socket from "./socket"
+import socket from "./socket";
 
-import game_init from "./fighter"
+import game_init from "./fighter";
 
 function init() {
   let root = document.getElementById('game');
   if(root) {
-  	let channel = socket.channel("games:" + window.gameName, {})
+  	let channel = socket.channel("games:" + window.gameName, {});
   	game_init(root, channel);
   }
 
