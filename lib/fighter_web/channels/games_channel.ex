@@ -11,7 +11,7 @@ defmodule FighterWeb.GamesChannel do
       {:error, %{reason: "unauthorized"}}
     end
   end
-  
+
 """
 
   def join("games:" <> name, payload, socket) do
@@ -26,7 +26,7 @@ defmodule FighterWeb.GamesChannel do
     end
   end
 
-  def handle_in("saveState", %{"clickedTiles" => ct}, socket) do
+  def handle_in("saveState", %{"hp1" => ct}, socket) do
      game = Game.guess(socket.assigns[:game], ct)
      Fighter.GameBackup.save(socket.assigns[:name], game)
      socket = assign(socket, :game, game)

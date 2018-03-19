@@ -12,10 +12,10 @@ class Fighter extends React.Component {
     this.state = {};
     this.channel = props.channel;
     this.state = {
-      hp1 : 500,
-      mp1 : 100,
-      hp2 : 500,
-      mp2 : 100
+      hp1: 500,
+      mp1: 100,
+      hp2: 500,
+      mp2: 100,
     };
 
     this.channel.join()
