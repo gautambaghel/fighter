@@ -12,10 +12,13 @@ class Fighter extends React.Component {
     this.state = {};
     this.channel = props.channel;
     this.state = {
+      player1: "sophia",
+      player2: "gautam",
       hp1: 500,
       mp1: 100,
       hp2: 500,
       mp2: 100,
+      turnp1: true, //is it player1's turn
     };
 
     this.channel.join()
@@ -24,7 +27,7 @@ class Fighter extends React.Component {
     }
 
     saveState() {
-         this.channel.push("saveState", {"hp1": 250})
+         this.channel.push("saveState", this.state)
            .receive("ok", this.gotView.bind(this));
        }
     gotView(view) {
@@ -37,12 +40,10 @@ tutorial that we are taking the super basic fighter style layout from. The rest 
 his tutorial is not used as it doesn't apply. */
 
   render() {
+    const playerTurn = this.state.turnp1;
     return (
+      <div>
       <div className="game-page">
-      <div className="row">
-      </div>
-
-      <div className="row">
            <div>
              <div className="battle-scene">
                <div className="box-top-left">
@@ -51,9 +52,16 @@ his tutorial is not used as it doesn't apply. */
                    <div className="hp-bar-fill"></div>
                  </div>
                  <div className="mp-bar-top">
-                   <h4>hi</h4>
+                   <div className="mp-bar-fill"></div>
                  </div>
-                 <h4 className="level"></h4>
+                 <h4 className="level">{this.state.player1}</h4>
+                 {playerTurn ? (
+                   <img src="http://iconshow.me/media/images/ui/ios7-icons/png/512/arrow-left-b.png" className="pointer" />
+                 ) : <h5></h5>}
+                 <h5 className="hp-text">HP</h5>
+                 <h5 className="mp-text">MP</h5>
+                 <h5 className="hp">{this.state.hp1}/500</h5>
+                 <h5 className="mp">{this.state.mp1}/100</h5>
                </div>
                <div className="box-top-right">
                  <img className="fighter-top" />
@@ -66,8 +74,19 @@ his tutorial is not used as it doesn't apply. */
                  <div className="hp-bar-bottom">
                    <div className="hp-bar-fill"></div>
                  </div>
-                 <h4 className="level"></h4>
-                 <h4 className="hp"></h4>
+                 <div className="mp-bar-bottom">
+                   <div className="mp-bar-fill"></div>
+                 </div>
+                 <h4 className="level">{this.state.player2}</h4>
+                   {playerTurn ? (
+                     <h5></h5>
+                   ) : (
+                     <img src="http://iconshow.me/media/images/ui/ios7-icons/png/512/arrow-left-b.png" className="pointer" />
+                   )}
+                 <h5 className="hp-text">HP</h5>
+                 <h5 className="mp-text">MP</h5>
+                 <h5 className="hp">{this.state.hp2}/500</h5>
+                 <h5 className="mp">{this.state.mp2}/100</h5>
                </div>
                <div className="bottom-menu">
                  <div className="battle-text text-box-left">
