@@ -15,7 +15,7 @@
   </div>
 
   <div class="col-md-6">
-	<h2>Active Sessions</h2>
+	<h2>Active Games</h2>
 
 	<table class="table table-bordered table-striped">
 	  <tr>
@@ -27,7 +27,7 @@
       <%= for {key, value} <- @sessions do %>
 	  <tr>
         <td><%= key %></td>
-        <td><%= value.hp1 %></td>
+        <td><%= value.player1 %>, <%= value.player2 %></td>
         <td><%= value.hp2 %></td>
 	  </tr>
 	  <% end %>
