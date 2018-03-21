@@ -9,7 +9,6 @@ export default function game_init(root, channel) {
 class Fighter extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
     this.channel = props.channel;
     this.state = {
       player1: "sophia",
