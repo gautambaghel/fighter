@@ -19,6 +19,7 @@ class Fighter extends React.Component {
       hp2: 500,
       mp2: 100,
       turnp1: true, //is it player1's turn
+      player: { hp: 500, mp: 100, status: 0 }
     };
 
     this.channel.join()
@@ -43,6 +44,11 @@ his tutorial is not used as it doesn't apply. */
     const playerTurn = this.state.turnp1;
     return (
       <div>
+        <div>
+          <img src="https://i.imgur.com/sQnbG5s.png" className="top-image-left"/>
+          <img src="https://i.imgur.com/SdjJ3IZ.png" className="top-image-right"/>
+        </div>
+      <div>
       <div className="game-page">
            <div>
              <div className="battle-scene">
@@ -64,10 +70,10 @@ his tutorial is not used as it doesn't apply. */
                  <h5 className="mp">{this.state.mp1}/100</h5>
                </div>
                <div className="box-top-right">
-                 <img className="fighter-top" />
+                 <Player status={this.state.player.status}></Player>
                </div>
                <div className="box-bottom-left">
-                 <img className="fighter-bottom" />
+                 <img src="https://i.imgur.com/Lk5XQet.png" className="fighter-bottom" />
                </div>
                <div className="box-bottom-right">
                  <h2 className="fighter"></h2>
@@ -106,8 +112,22 @@ his tutorial is not used as it doesn't apply. */
             <Button onClick={ () => {this.saveState();} }>Save</Button>
          </div>
 
-        </div>
+      </div>
+    </div>
     );
 
+  }
+}
+
+function Player(params) {
+  if (params.status == 0) {
+    return (
+    <img src="https://i.imgur.com/YapuSsT.png" className="fighter-top" />
+    );
+  }
+     else {
+    return (
+        <img src="https://i.imgur.com/4kc3gxo.png" className="fighter-top" />
+    );
   }
 }

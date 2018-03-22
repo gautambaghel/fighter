@@ -10,6 +10,18 @@ his tutorial is not used as it doesn't apply. */
 
 @import url('https://fonts.googleapis.com/css?family=PT+Sans+Narrow');
 
+.top-image-left{
+  display: inline-block;
+  float: left;
+  margin-right: 24%;
+}
+
+.top-image-right{
+  display: inline-block;
+  float: right;
+  margin-left: 24%;
+}
+
 .game-page{
   margin-top: 15px;
   height: 100%;
