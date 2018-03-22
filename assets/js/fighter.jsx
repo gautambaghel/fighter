@@ -2,18 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button } from 'reactstrap';
 
-export default function game_init(root, channel) {
-  ReactDOM.render(<Fighter channel={channel}/>, root);
+export default function game_init(root, channel, player1) {
+  ReactDOM.render(<Fighter channel={channel} player1={player1}/>, root);
 }
 
 class Fighter extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
     this.channel = props.channel;
     this.state = {
-      player1: "sophia",
-      player2: "gautam",
+      player1: props.player1,
+      player2: "sophia",
       hp1: 500,
       mp1: 100,
       hp2: 500,
