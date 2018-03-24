@@ -18,7 +18,9 @@ class Fighter extends React.Component {
       hp2: 500,
       mp2: 100,
       turnp1: true, //is it player1's turn
-      player: { hp: 500, mp: 100, status: 0 }
+      player: { hp: 400, mp: 50, status: 0 },
+      p1_items: { attack: true, block: true, mp: true },
+      p2_items: { attack: true, block: true, mp: true },
     };
 
     this.channel.join()
@@ -30,14 +32,33 @@ class Fighter extends React.Component {
          this.channel.push("saveState", this.state)
            .receive("ok", this.gotView.bind(this));
        }
+
     gotView(view) {
       this.setState(view.game);
+    }
+
+    sendAction(action) {
+    this.setState({
+      player: { status : action }
+    });
+      setTimeout(() => {
+        this.returnIdle()
+      }, 1000);
+    }
+
+    returnIdle() {
+      this.setState({
+        player: {status : 0 }
+      });
     }
 
 /* ATTRIBUTION: basic html and css were provided by Mike Mangialardi,
 who wrote this https://medium.com/coding-artist/vue-js-pokemon-battle-tutorial-380cd72eb681
 tutorial that we are taking the super basic fighter style layout from. The rest of
 his tutorial is not used as it doesn't apply. */
+
+// images of the top two figures
+//https://imgur.com/a/TJbOJ  https://imgur.com/a/CtMo3
 
   render() {
     const playerTurn = this.state.turnp1;
@@ -54,10 +75,10 @@ his tutorial is not used as it doesn't apply. */
                <div className="box-top-left">
                  <h2 className="fighter"></h2>
                  <div className="hp-bar-top">
-                   <div className="hp-bar-fill"></div>
+                   <HealthBar hp={this.state.player.hp}></HealthBar>
                  </div>
                  <div className="mp-bar-top">
-                   <div className="mp-bar-fill"></div>
+                   <StaminaBar mp={this.state.player.mp}></StaminaBar>
                  </div>
                  <h4 className="level">{this.state.player1}</h4>
                  {playerTurn ? (
@@ -69,18 +90,18 @@ his tutorial is not used as it doesn't apply. */
                  <h5 className="mp">{this.state.mp1}/100</h5>
                </div>
                <div className="box-top-right">
-                 <Player status={this.state.player.status}></Player>
+                 <PlayerOne status={this.state.player.status}></PlayerOne>
                </div>
                <div className="box-bottom-left">
-                 <img src="https://i.imgur.com/Lk5XQet.png" className="fighter-bottom" />
+                 <PlayerTwo status={this.state.player.status}></PlayerTwo>
                </div>
                <div className="box-bottom-right">
                  <h2 className="fighter"></h2>
                  <div className="hp-bar-bottom">
-                   <div className="hp-bar-fill"></div>
+                   <HealthBar hp={this.state.player.hp}></HealthBar>
                  </div>
                  <div className="mp-bar-bottom">
-                   <div className="mp-bar-fill"></div>
+                  <StaminaBar mp={this.state.player.mp}></StaminaBar>
                  </div>
                  <h4 className="level">{this.state.player2}</h4>
                    {playerTurn ? (
@@ -94,13 +115,14 @@ his tutorial is not used as it doesn't apply. */
                  <h5 className="mp">{this.state.mp2}/100</h5>
                </div>
                <div className="bottom-menu">
-                 <div className="battle-text text-box-left">
+                 <div className="battle-text-text-box-left">
+                   <Button className="attack-boost-button" color="warning" size="sm" onClick={ () => {this.sendAction(3);} }>Attack Boost</Button>
+                   <Button className="block-boost-button" color="warning" size="sm" onClick={ () => {this.sendAction(3);} }>Block Boost</Button>
+                   <Button className="stamina-boost-button" color="warning" size="sm" onClick={ () => {this.sendAction(3);} }>Stamina Boost</Button>
                  </div>
                  <div className="text-box-right">
-                   <h4 className="battle-text-top-left"></h4>
-                   <h4 className="battle-text-bottom-left"></h4>
-                   <h4 className="battle-text-top-right"></h4>
-                   <h4 className="battle-text-bottom-right"></h4>
+                   <Button className="battle-text-top-left" color="link" onClick={ () => {this.sendAction(1);} }>Attack</Button>
+                   <Button className="battle-text-top-right" color="link" onClick={ () => {this.sendAction(2);} }>Block</Button>
                 </div>
               </div>
             </div>
@@ -108,7 +130,7 @@ his tutorial is not used as it doesn't apply. */
         </div>
 
         <div className="save-button">
-            <Button onClick={ () => {this.saveState();} }>Save</Button>
+            <Button onClick={ () => {this.sendAction(1);} }>Attack</Button>
          </div>
 
       </div>
@@ -118,15 +140,134 @@ his tutorial is not used as it doesn't apply. */
   }
 }
 
-function Player(params) {
-  if (params.status == 0) {
+function PlayerOne(params) {
+  switch (params.status) {
+    case 0: //resting https://imgur.com/a/6Y8J0
     return (
     <img src="https://i.imgur.com/YapuSsT.png" className="fighter-top" />
     );
-  }
-     else {
+    case 1:
+    return ( //attack https://imgur.com/a/0xfXy
+        <img src="https://i.imgur.com/Vnjgiaj.png" className="fighter-top" />
+    );
+    case 2: //block https://imgur.com/a/35fMZ
     return (
-        <img src="https://i.imgur.com/4kc3gxo.png" className="fighter-top" />
+        <img src="https://i.imgur.com/zIcDUsN.png" className="fighter-top" />
+    );
+    case 3: //item https://imgur.com/a/2b0oT
+    return (
+        <img src="https://i.imgur.com/dJuiQ9R.png" className="fighter-top" />
+    );
+  }
+}
+
+function PlayerTwo(params) {
+  switch (params.status) {
+    case 0: //resting https://imgur.com/a/EBJsp
+    return (
+    <img src="https://i.imgur.com/0hoeM9F.png" className="fighter-bottom" />
+    );
+    case 1:
+    return ( //attack https://imgur.com/a/U0bVQ
+        <img src="https://i.imgur.com/nonFNdU.png" className="fighter-bottom" />
+    );
+    case 2: //block https://imgur.com/a/pI8N6
+    return (
+        <img src="https://i.imgur.com/G2W0nVK.png" className="fighter-bottom" />
+    );
+    case 3: //item https://imgur.com/a/zaLbH
+    return (
+        <img src="https://i.imgur.com/d0wQ482.png" className="fighter-bottom" />
+    );
+  }
+}
+
+function HealthBar(params) {
+  var health = params.hp;
+  if (health == 500) {
+    return (
+      <div className="hp-bar-fill"></div>
+    );
+  }
+  else
+  if (health < 500) {
+    return (
+      <div className="hp-bar-500"></div>
+    );
+  }
+  else
+  if (health < 400) {
+    return (
+      <div className="hp-bar-400"></div>
+    );
+  }
+  else
+  if (health < 300) {
+    return (
+      <div className="hp-bar-300"></div>
+    );
+  }
+  else
+  if (health < 200) {
+    return (
+      <div className="hp-bar-200"></div>
+    );
+  }
+  else
+  if (health < 100) {
+    return (
+      <div className="hp-bar-100"></div>
+    );
+  }
+  else
+  if (health == 0) {
+    return (
+      <div className="hp-bar-0"></div>
+    );
+  }
+}
+
+function StaminaBar(params) {
+  var stamina = params.mp;
+  if (stamina == 100) {
+    return (
+      <div className="mp-bar-fill"></div>
+    );
+  }
+  else
+  if (stamina < 100) {
+    return (
+      <div className="mp-bar-100"></div>
+    );
+  }
+  else
+  if (stamina < 80) {
+    return (
+      <div className="mp-bar-80"></div>
+    );
+  }
+  else
+  if (stamina < 60) {
+    return (
+      <div className="mp-bar-60"></div>
+    );
+  }
+  else
+  if (stamina < 40) {
+    return (
+      <div className="mp-bar-40"></div>
+    );
+  }
+  else
+  if (stamina < 20) {
+    return (
+      <div className="mp-bar-20"></div>
+    );
+  }
+  else
+  if (stamina == 0) {
+    return (
+      <div className="mp-bar-0"></div>
     );
   }
 }

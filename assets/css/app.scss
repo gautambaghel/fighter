@@ -76,7 +76,7 @@ his tutorial is not used as it doesn't apply. */
   width: 70%;
   left: 12%;
   border-radius: 20px;
-  background: red;
+  background: gray;
   opacity: 0.5;
 }
 
@@ -87,7 +87,7 @@ his tutorial is not used as it doesn't apply. */
   width: 70%;
   left: 12%;
   border-radius: 20px;
-  background: blue;
+  background: gray;
   opacity: 0.5;
 }
 
@@ -98,7 +98,7 @@ his tutorial is not used as it doesn't apply. */
   width: 70%;
   left: 12%;
   border-radius: 20px;
-  background: red;
+  background: gray;
   opacity: 0.5;
 }
 
@@ -109,22 +109,126 @@ his tutorial is not used as it doesn't apply. */
   width: 70%;
   left: 12%;
   border-radius: 20px;
-  background: blue;
+  background: gray;
   opacity: 0.5;
 }
+
+/*
+for the healthbar function in fighter.jsx
+*/
 
 .hp-bar-fill{
   position: absolute;
   height: 100%;
+  width: 100%;
   border-radius: 20px;
-  background: #FF8800;
+  background: red;
 }
+
+.hp-bar-500{
+  position: absolute;
+  height: 100%;
+  width: 90%;
+  border-radius: 20px;
+  background: red;
+}
+
+.hp-bar-400{
+  position: absolute;
+  height: 100%;
+  width: 80%;
+  border-radius: 20px;
+  background: red;
+}
+
+.hp-bar-300{
+  position: absolute;
+  height: 100%;
+  width: 60%;
+  border-radius: 20px;
+  background: red;
+}
+
+.hp-bar-200{
+  position: absolute;
+  height: 100%;
+  width: 40%;
+  border-radius: 20px;
+  background: red;
+}
+
+.hp-bar-100{
+  position: absolute;
+  height: 100%;
+  width: 20%;
+  border-radius: 20px;
+  background: red;
+}
+
+.hp-bar-0{
+  position: absolute;
+  height: 100%;
+  border-radius: 20px;
+  background: red;
+}
+
+/*
+for staminabar function in fighter.jsx
+*/
 
 .mp-bar-fill{
   position: absolute;
   height: 100%;
+  width: 100%;
   border-radius: 20px;
-  background: #B3FF66;
+  background: blue;
+}
+
+.mp-bar-100{
+  position: absolute;
+  height: 100%;
+  width: 90%;
+  border-radius: 20px;
+  background: blue;
+}
+
+.mp-bar-80{
+  position: absolute;
+  height: 100%;
+  width: 80%;
+  border-radius: 20px;
+  background: blue;
+}
+
+.mp-bar-60{
+  position: absolute;
+  height: 100%;
+  width: 60%;
+  border-radius: 20px;
+  background: blue;
+}
+
+.mp-bar-40{
+  position: absolute;
+  height: 100%;
+  width: 40%;
+  border-radius: 20px;
+  background: blue;
+}
+
+.mp-bar-20{
+  position: absolute;
+  height: 100%;
+  width: 20%;
+  border-radius: 20px;
+  background: blue;
+}
+
+.mp-bar-0{
+  position: absolute;
+  height: 100%;
+  border-radius: 20px;
+  background: blue;
 }
 
 .box-top-right{
@@ -245,6 +349,27 @@ his tutorial is not used as it doesn't apply. */
   border: solid 6px #CEB46D;
 }
 
+.attack-boost-button{
+  position: absolute;
+  top: 25%;
+  left: 3%;
+  font-family: "PT Sans Narrow";
+}
+
+.block-boost-button{
+  position: absolute;
+  top: 25%;
+  left: 22%;
+  font-family: "PT Sans Narrow";
+}
+
+.stamina-boost-button{
+  position: absolute;
+  top: 25%;
+  left: 40%;
+  font-family: "PT Sans Narrow";
+}
+
 .text-box-left{
   position: absolute;
   width: 50%;
@@ -279,7 +404,6 @@ his tutorial is not used as it doesn't apply. */
   position: absolute;
   font-size: 22px;
   color: #333333;
-  top: -30%;
   left: 10%;
   text-align: left;
   font-family: "PT Sans Narrow";
@@ -291,7 +415,7 @@ his tutorial is not used as it doesn't apply. */
   position: absolute;
   font-size: 22px;
   color: #333333;
-  bottom: -30%;
+  bottom: -20%;
   left: 10%;
   text-align: left;
   font-family: "PT Sans Narrow";
@@ -303,7 +427,6 @@ his tutorial is not used as it doesn't apply. */
   position: absolute;
   font-size: 22px;
   color: #333333;
-  top: -30%;
   right: 21%;
   text-align: left;
   font-family: "PT Sans Narrow";
@@ -315,7 +438,7 @@ his tutorial is not used as it doesn't apply. */
   position: absolute;
   font-size: 22px;
   color: #333333;
-  bottom: -30%;
+  bottom: -20%;
   right: 20%;
   text-align: left;
   font-family: "PT Sans Narrow";
