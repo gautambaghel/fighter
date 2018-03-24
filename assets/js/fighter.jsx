@@ -191,21 +191,15 @@ function HealthBar(params) {
     );
   }
   else
-  if (health < 500) {
+  if (health < 5) {
     return (
-      <div className="hp-bar-500"></div>
+      <div className="hp-bar-0"></div>
     );
   }
   else
-  if (health < 400) {
+  if (health < 100) {
     return (
-      <div className="hp-bar-400"></div>
-    );
-  }
-  else
-  if (health < 300) {
-    return (
-      <div className="hp-bar-300"></div>
+      <div className="hp-bar-100"></div>
     );
   }
   else
@@ -215,14 +209,20 @@ function HealthBar(params) {
     );
   }
   else
-  if (health < 100) {
+  if (health < 300) {
     return (
-      <div className="hp-bar-100"></div>
+      <div className="hp-bar-300"></div>
+    );
+  }
+  else
+  if (health < 400) {
+    return (
+      <div className="hp-bar-400"></div>
     );
   }
   else {
     return (
-      <div className="hp-bar-0"></div>
+      <div className="hp-bar-500"></div>
     );
   }
 }
@@ -235,27 +235,9 @@ function StaminaBar(params) {
     );
   }
   else
-  if (stamina < 100) {
+  if (stamina < 2) {
     return (
-      <div className="mp-bar-100"></div>
-    );
-  }
-  else
-  if (stamina < 80) {
-    return (
-      <div className="mp-bar-80"></div>
-    );
-  }
-  else
-  if (stamina < 60) {
-    return (
-      <div className="mp-bar-60"></div>
-    );
-  }
-  else
-  if (stamina < 40) {
-    return (
-      <div className="mp-bar-40"></div>
+      <div className="mp-bar-0"></div>
     );
   }
   else
@@ -265,9 +247,26 @@ function StaminaBar(params) {
     );
   }
   else
-  if (stamina == 0) {
+  if (stamina < 40) {
     return (
-      <div className="mp-bar-0"></div>
+      <div className="mp-bar-40"></div>
+    );
+  }
+  else
+  if (stamina < 60) {
+    return (
+      <div className="mp-bar-60"></div>
+    );
+  }
+  else
+  if (stamina < 80) {
+    return (
+      <div className="mp-bar-80"></div>
+    );
+  }
+  else {
+    return (
+      <div className="mp-bar-100"></div>
     );
   }
 }

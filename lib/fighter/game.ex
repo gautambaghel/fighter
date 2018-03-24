@@ -3,8 +3,8 @@ defmodule Fighter.Game do
 	def new do
 		%{
       turnp1: true,
-      player1: %{ name: "-bot-", hp: 500, mp: 100, status: 0 },
-      player2: %{ name: "-bot-", hp: 500, mp: 100, status: 0 },
+      player1: %{ name: "-bot-", hp: 200, mp: 100, status: 0 },
+      player2: %{ name: "-bot-", hp: 500, mp: 20, status: 0 },
       p1_items: %{ attack: true, block: true, mp: true },
       p2_items: %{ attack: true, block: true, mp: true },
 		}
