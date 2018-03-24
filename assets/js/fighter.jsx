@@ -39,7 +39,7 @@ class Fighter extends React.Component {
 
     sendAction(action) {
     this.setState({
-      player: { status : action }
+      player: {hp: 400, mp: 50, status : action }
     });
       setTimeout(() => {
         this.returnIdle()
@@ -48,7 +48,7 @@ class Fighter extends React.Component {
 
     returnIdle() {
       this.setState({
-        player: {status : 0 }
+        player: {hp: 400, mp: 50, status : 0 }
       });
     }
 
@@ -141,6 +141,7 @@ his tutorial is not used as it doesn't apply. */
 }
 
 function PlayerOne(params) {
+  console.log(params);
   switch (params.status) {
     case 0: //resting https://imgur.com/a/6Y8J0
     return (
@@ -183,6 +184,7 @@ function PlayerTwo(params) {
 }
 
 function HealthBar(params) {
+  console.log(params);
   var health = params.hp;
   if (health == 500) {
     return (
@@ -219,8 +221,7 @@ function HealthBar(params) {
       <div className="hp-bar-100"></div>
     );
   }
-  else
-  if (health == 0) {
+  else {
     return (
       <div className="hp-bar-0"></div>
     );
