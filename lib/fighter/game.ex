@@ -2,13 +2,11 @@ defmodule Fighter.Game do
 
 	def new do
 		%{
-      player1: "gautam",
-      player2: "sophia",
-      hp1: 500,
-      mp1: 100,
-      hp2: 500,
-      mp2: 100,
       turnp1: true,
+      player1: %{ name: "-bot-", hp: 500, mp: 100, status: 0 },
+      player2: %{ name: "-bot-", hp: 500, mp: 100, status: 0 },
+      p1_items: %{ attack: true, block: true, mp: true },
+      p2_items: %{ attack: true, block: true, mp: true },
 		}
 	end
 
@@ -18,6 +16,12 @@ defmodule Fighter.Game do
 
  def guess(game, health) do
 	 Map.put(game, :hp1, health)
+ end
+
+ def attack(game, p1, p2, turnp1) do
+	 Map.put(game, :player1, p1)
+	 |> Map.put(:player2, p2)
+	 |> Map.put(:turnp1, turnp1)
  end
 
 end

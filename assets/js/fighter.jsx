@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button } from 'reactstrap';
 
-export default function game_init(root, channel, player1) {
-  ReactDOM.render(<Fighter channel={channel} player1={player1}/>, root);
+export default function game_init(root, channel, currentPlayer) {
+  ReactDOM.render(<Fighter channel={channel} currentPlayer={currentPlayer}/>, root);
 }
 
 class Fighter extends React.Component {
@@ -11,14 +11,11 @@ class Fighter extends React.Component {
     super(props);
     this.channel = props.channel;
     this.state = {
-      player1: props.player1,
-      player2: "sophia",
-      hp1: 500,
-      mp1: 100,
-      hp2: 500,
-      mp2: 100,
       turnp1: true, //is it player1's turn
-      player: { hp: 400, mp: 50, status: 0 },
+      p1_status: 0,
+      p2_status: 0,
+      player1: { name: "-bot-", hp: 500, mp: 100 },
+      player2: { name: "-bot-", hp: 500, mp: 100 },
       p1_items: { attack: true, block: true, mp: true },
       p2_items: { attack: true, block: true, mp: true },
     };
@@ -28,19 +25,28 @@ class Fighter extends React.Component {
         .receive("error", resp => { console.log("Unable to join", resp) });
     }
 
-    saveState() {
-         this.channel.push("saveState", this.state)
-           .receive("ok", this.gotView.bind(this));
-       }
-
     gotView(view) {
       this.setState(view.game);
     }
 
+    sendAttack(action) {
+      var state = this.state
+      if(state.player1.name == "-bot-") {
+        state.player1.name = this.props.currentPlayer
+      } else if(state.player2.name == "-bot-") {
+        state.player2.name = this.props.currentPlayer
+      }
+
+      this.channel.push("attack", {
+        player1: state.player1 ,
+        player2: state.player2 ,
+        turnp1: false})
+        .receive("ok", this.gotView.bind(this));
+    }
+
     sendAction(action) {
-    this.setState({
-      player: {hp: 400, mp: 50, status : action }
-    });
+    this.sendAttack(action)
+    this.state.p1_status = action
       setTimeout(() => {
         this.returnIdle()
       }, 1000);
@@ -48,7 +54,7 @@ class Fighter extends React.Component {
 
     returnIdle() {
       this.setState({
-        player: {hp: 400, mp: 50, status : 0 }
+        p1_status: 0
       });
     }
 
@@ -75,35 +81,35 @@ his tutorial is not used as it doesn't apply. */
                <div className="box-top-left">
                  <h2 className="fighter"></h2>
                  <div className="hp-bar-top">
-                   <HealthBar hp={this.state.player.hp}></HealthBar>
+                   <HealthBar hp={this.state.player1.hp}></HealthBar>
                  </div>
                  <div className="mp-bar-top">
-                   <StaminaBar mp={this.state.player.mp}></StaminaBar>
+                   <StaminaBar mp={this.state.player1.mp}></StaminaBar>
                  </div>
-                 <h4 className="level">{this.state.player1}</h4>
+                 <h4 className="level">{this.state.player1.name}</h4>
                  {playerTurn ? (
                    <img src="http://iconshow.me/media/images/ui/ios7-icons/png/512/arrow-left-b.png" className="pointer" />
                  ) : <h5></h5>}
                  <h5 className="hp-text">HP</h5>
                  <h5 className="mp-text">MP</h5>
-                 <h5 className="hp">{this.state.hp1}/500</h5>
-                 <h5 className="mp">{this.state.mp1}/100</h5>
+                 <h5 className="hp">{this.state.player1.hp}/500</h5>
+                 <h5 className="mp">{this.state.player1.mp}/100</h5>
                </div>
                <div className="box-top-right">
-                 <PlayerOne status={this.state.player.status}></PlayerOne>
+                 <PlayerOne status={this.state.p1_status}></PlayerOne>
                </div>
                <div className="box-bottom-left">
-                 <PlayerTwo status={this.state.player.status}></PlayerTwo>
+                 <PlayerTwo status={this.state.p2_status}></PlayerTwo>
                </div>
                <div className="box-bottom-right">
                  <h2 className="fighter"></h2>
                  <div className="hp-bar-bottom">
-                   <HealthBar hp={this.state.player.hp}></HealthBar>
+                   <HealthBar hp={this.state.player2.hp}></HealthBar>
                  </div>
                  <div className="mp-bar-bottom">
-                  <StaminaBar mp={this.state.player.mp}></StaminaBar>
+                  <StaminaBar mp={this.state.player2.mp}></StaminaBar>
                  </div>
-                 <h4 className="level">{this.state.player2}</h4>
+                 <h4 className="level">{this.state.player2.name}</h4>
                    {playerTurn ? (
                      <h5></h5>
                    ) : (
@@ -111,8 +117,8 @@ his tutorial is not used as it doesn't apply. */
                    )}
                  <h5 className="hp-text">HP</h5>
                  <h5 className="mp-text">MP</h5>
-                 <h5 className="hp">{this.state.hp2}/500</h5>
-                 <h5 className="mp">{this.state.mp2}/100</h5>
+                 <h5 className="hp">{this.state.player2.hp}/500</h5>
+                 <h5 className="mp">{this.state.player2.mp}/100</h5>
                </div>
                <div className="bottom-menu">
                  <div className="battle-text-text-box-left">
@@ -128,11 +134,6 @@ his tutorial is not used as it doesn't apply. */
             </div>
           </div>
         </div>
-
-        <div className="save-button">
-            <Button onClick={ () => {this.sendAction(1);} }>Attack</Button>
-         </div>
-
       </div>
     </div>
     );
@@ -141,7 +142,6 @@ his tutorial is not used as it doesn't apply. */
 }
 
 function PlayerOne(params) {
-  console.log(params);
   switch (params.status) {
     case 0: //resting https://imgur.com/a/6Y8J0
     return (
@@ -184,7 +184,6 @@ function PlayerTwo(params) {
 }
 
 function HealthBar(params) {
-  console.log(params);
   var health = params.hp;
   if (health == 500) {
     return (

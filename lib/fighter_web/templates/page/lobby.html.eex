@@ -21,14 +21,12 @@
 	  <tr>
 	    <th>Name</th>
 	    <th>Players</th>
-	    <th>Spectators</th>
 	  </tr>
 
       <%= for {key, value} <- @sessions do %>
 	  <tr>
         <td><%= key %></td>
-        <td><%= value.player1 %>, <%= value.player2 %></td>
-        <td><%= value.hp2 %></td>
+        <td><%= value.player1["name"] %>, <%= value.player2["name"]%></td>
 	  </tr>
 	  <% end %>
 	</table>

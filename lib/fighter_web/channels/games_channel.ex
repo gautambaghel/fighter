@@ -3,17 +3,6 @@ defmodule FighterWeb.GamesChannel do
 
   alias Fighter.Game
 
-"""
-  def join("games:lobby", payload, socket) do
-    if authorized?(payload) do
-      {:ok, socket}
-    else
-      {:error, %{reason: "unauthorized"}}
-    end
-  end
-
-"""
-
   def join("games:" <> name, payload, socket) do
     if authorized?(payload) do
       game =  Fighter.GameBackup.load(name) || Game.new()
@@ -26,8 +15,8 @@ defmodule FighterWeb.GamesChannel do
     end
   end
 
-  def handle_in("saveState", %{"hp1" => ct}, socket) do
-     game = Game.guess(socket.assigns[:game], ct)
+  def handle_in("attack", %{"player1" => p1, "player2" => p2, "turnp1" => turnp1,}, socket) do
+     game = Game.attack(socket.assigns[:game], p1, p2, turnp1)
      Fighter.GameBackup.save(socket.assigns[:name], game)
      socket = assign(socket, :game, game)
      {:reply, {:ok, %{ "game" => Game.client_view(game)}}, socket}
