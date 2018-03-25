@@ -18,8 +18,10 @@ defmodule FighterWeb.GamesChannel do
   def handle_in("attack", %{"player1" => p1, "player2" => p2, "turnp1" => turnp1,}, socket) do
      game = Game.attack(socket.assigns[:game], p1, p2, turnp1)
      Fighter.GameBackup.save(socket.assigns[:name], game)
-     socket = assign(socket, :game, game)
-     {:reply, {:ok, %{ "game" => Game.client_view(game)}}, socket}
+     broadcast socket, "attack", game
+     {:noreply, socket}
+     # socket = assign(socket, :game, game)
+     # {:reply, {:ok, %{ "game" => Game.client_view(game)}}, socket}
   end
 
   # Channels can be used in a request/response fashion

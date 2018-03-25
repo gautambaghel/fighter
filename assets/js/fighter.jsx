@@ -14,8 +14,8 @@ class Fighter extends React.Component {
       turnp1: true, //is it player1's turn
       p1_status: 0,
       p2_status: 0,
-      player1: { name: "-bot-", hp: 500, mp: 100 },
-      player2: { name: "-bot-", hp: 500, mp: 100 },
+      player1: { name: "-waiting-", hp: 500, mp: 100 },
+      player2: { name: "-waiting-", hp: 500, mp: 100 },
       p1_items: { attack: true, block: true, mp: true },
       p2_items: { attack: true, block: true, mp: true },
     };
@@ -23,39 +23,73 @@ class Fighter extends React.Component {
     this.channel.join()
         .receive("ok", this.gotView.bind(this))
         .receive("error", resp => { console.log("Unable to join", resp) });
+
+    }
+
+    componentWillMount() {
+      this.channel.on("attack", payload => {
+             this.setState(payload);
+        })
     }
 
     gotView(view) {
       this.setState(view.game);
     }
 
-    sendAttack(action) {
+    assignPlayersIfUnassigned() {
       var state = this.state
-      if(state.player1.name == "-bot-") {
+      if(state.player1.name == "-waiting-") {
         state.player1.name = this.props.currentPlayer
-      } else if(state.player2.name == "-bot-") {
+      } else if(state.player2.name == "-waiting-" &&
+           state.player1.name != this.props.currentPlayer) {
         state.player2.name = this.props.currentPlayer
       }
+    }
 
-      this.channel.push("attack", {
-        player1: state.player1 ,
-        player2: state.player2 ,
-        turnp1: false})
-        .receive("ok", this.gotView.bind(this));
+    turnForPlayer(turn) {
+      var curPlayer = this.props.currentPlayer
+      if(turn && this.state.player1.name == curPlayer) {
+         return true;
+      }
+      else if(!turn && this.state.player2.name == curPlayer) {
+         return true;
+      }
+       else {
+         return false;
+      }
     }
 
     sendAction(action) {
-    this.sendAttack(action)
-    this.state.p1_status = action
-      setTimeout(() => {
-        this.returnIdle()
-      }, 1000);
+      this.assignPlayersIfUnassigned()
+      if(this.turnForPlayer(this.state.turnp1)){
+         // Back end
+         this.performAction(action)
+         // Front end
+         this.changeStatus(action)
+      }
     }
 
-    returnIdle() {
-      this.setState({
-        p1_status: 0
-      });
+    performAction(action)  {
+      this.channel.push("attack", {
+        player1: this.state.player1 ,
+        player2: this.state.player2 ,
+        turnp1: this.state.turnp1 })
+      //   .receive("ok", this.gotView.bind(this));
+    }
+
+    changeStatus(action, player) {
+      var status
+      if(this.state.turnp1){
+        this.setState({ p1_status: action});
+        setTimeout(() => {
+           this.setState({ p1_status: 0});
+          }, 1000)
+      } else {
+        this.setState({ p2_status: action});
+        setTimeout(() => {
+           this.setState({ p2_status: 0});
+          }, 1000)
+      }
     }
 
 /* ATTRIBUTION: basic html and css were provided by Mike Mangialardi,
