@@ -58,6 +58,7 @@ class Fighter extends React.Component {
       });
     }
 
+
 /* ATTRIBUTION: basic html and css were provided by Mike Mangialardi,
 who wrote this https://medium.com/coding-artist/vue-js-pokemon-battle-tutorial-380cd72eb681
 tutorial that we are taking the super basic fighter style layout from. The rest of
@@ -122,13 +123,20 @@ his tutorial is not used as it doesn't apply. */
                </div>
                <div className="bottom-menu">
                  <div className="battle-text-text-box-left">
-                   <Button className="attack-boost-button" color="warning" size="sm" onClick={ () => {this.sendAction(3);} }>Attack Boost</Button>
-                   <Button className="block-boost-button" color="warning" size="sm" onClick={ () => {this.sendAction(3);} }>Block Boost</Button>
-                   <Button className="stamina-boost-button" color="warning" size="sm" onClick={ () => {this.sendAction(3);} }>Stamina Boost</Button>
+                   { this.state.p1_items.attack ? (
+                     <Button className="attack-boost-button" color="warning" size="sm" onClick={ () => {this.sendAction(3);} }>Attack Boost</Button>
+                   ) : (<h5></h5>)}
+                   { this.state.p1_items.block ? (
+                     <Button className="block-boost-button" color="warning" size="sm" onClick={ () => {this.sendAction(4);} }>Block Boost</Button>
+                   ) : (<h5></h5>)}
+                   { this.state.p1_items.mp ? (
+                     <Button className="stamina-boost-button" color="warning" size="sm" onClick={ () => {this.sendAction(5);} }>Stamina Boost</Button>
+                   ) : (<h5></h5>)}
                  </div>
                  <div className="text-box-right">
                    <Button className="battle-text-top-left" color="link" onClick={ () => {this.sendAction(1);} }>Attack</Button>
                    <Button className="battle-text-top-right" color="link" onClick={ () => {this.sendAction(2);} }>Block</Button>
+                   <Button className="battle-text-bottom-right" color="link" onClick={ () => {this.sendAction(6);} }>Skip</Button>
                 </div>
               </div>
             </div>
@@ -155,9 +163,21 @@ function PlayerOne(params) {
     return (
         <img src="https://i.imgur.com/zIcDUsN.png" className="fighter-top" />
     );
-    case 3: //item https://imgur.com/a/2b0oT
+    case 3: //attack item https://imgur.com/a/2b0oT
     return (
         <img src="https://i.imgur.com/dJuiQ9R.png" className="fighter-top" />
+    );
+    case 4: //block item https://imgur.com/a/2b0oT
+    return (
+        <img src="https://i.imgur.com/dJuiQ9R.png" className="fighter-top" />
+    );
+    case 5: //stamina item https://imgur.com/a/2b0oT
+    return (
+        <img src="https://i.imgur.com/dJuiQ9R.png" className="fighter-top" />
+    );
+    case 6: //skip https://imgur.com/a/6Y8J0
+    return (
+    <img src="https://i.imgur.com/YapuSsT.png" className="fighter-top" />
     );
   }
 }
@@ -176,9 +196,21 @@ function PlayerTwo(params) {
     return (
         <img src="https://i.imgur.com/G2W0nVK.png" className="fighter-bottom" />
     );
-    case 3: //item https://imgur.com/a/zaLbH
+    case 3: //attack item https://imgur.com/a/zaLbH
     return (
         <img src="https://i.imgur.com/d0wQ482.png" className="fighter-bottom" />
+    );
+    case 4: //block item https://imgur.com/a/zaLbH
+    return (
+        <img src="https://i.imgur.com/d0wQ482.png" className="fighter-bottom" />
+    );
+    case 5: //stamina item https://imgur.com/a/zaLbH
+    return (
+        <img src="https://i.imgur.com/d0wQ482.png" className="fighter-bottom" />
+    );
+    case 6: //skip https://imgur.com/a/EBJsp
+    return (
+    <img src="https://i.imgur.com/0hoeM9F.png" className="fighter-bottom" />
     );
   }
 }
@@ -191,31 +223,31 @@ function HealthBar(params) {
     );
   }
   else
-  if (health < 5) {
+  if (health <= 5) {
     return (
       <div className="hp-bar-0"></div>
     );
   }
   else
-  if (health < 100) {
+  if (health <= 100) {
     return (
       <div className="hp-bar-100"></div>
     );
   }
   else
-  if (health < 200) {
+  if (health <= 200) {
     return (
       <div className="hp-bar-200"></div>
     );
   }
   else
-  if (health < 300) {
+  if (health <= 300) {
     return (
       <div className="hp-bar-300"></div>
     );
   }
   else
-  if (health < 400) {
+  if (health <= 400) {
     return (
       <div className="hp-bar-400"></div>
     );
@@ -235,31 +267,31 @@ function StaminaBar(params) {
     );
   }
   else
-  if (stamina < 2) {
+  if (stamina <= 2) {
     return (
       <div className="mp-bar-0"></div>
     );
   }
   else
-  if (stamina < 20) {
+  if (stamina <= 20) {
     return (
       <div className="mp-bar-20"></div>
     );
   }
   else
-  if (stamina < 40) {
+  if (stamina <= 40) {
     return (
       <div className="mp-bar-40"></div>
     );
   }
   else
-  if (stamina < 60) {
+  if (stamina <= 60) {
     return (
       <div className="mp-bar-60"></div>
     );
   }
   else
-  if (stamina < 80) {
+  if (stamina <= 80) {
     return (
       <div className="mp-bar-80"></div>
     );
