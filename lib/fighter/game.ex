@@ -52,21 +52,41 @@ defmodule Fighter.Game do
 		 block_strength = Enum.random(50..90)
 		 cond do
 			 turnp1 ->
-				 Map.put(game, :player1, %{ name: p1["name"], hp: (p1["hp"] + block_strength), mp: p1["mp"] })
+				 if ((p1["hp"] + block_strength) > 500) do
+				 Map.put(game, :player1, %{ name: p1["name"], hp: 500, mp: p1["mp"] })
 				  |> Map.put(:player2, p2)
+				else
+					Map.put(game, :player1, %{ name: p1["name"], hp: (p1["hp"] + block_strength), mp: p1["mp"] })
+ 				  |> Map.put(:player2, p2)
+				end
 			 true ->
-				 Map.put(game, :player2, %{ name: p2["name"], hp: (p2["hp"] + block_strength), mp: p2["mp"]})
+				 if ((p2["hp"] + block_strength) > 500) do
+				 Map.put(game, :player2, %{ name: p2["name"], hp: 500, mp: p2["mp"]})
 				  |> Map.put(:player1, p1)
+				else
+					Map.put(game, :player2, %{ name: p2["name"], hp: (p2["hp"] + block_strength), mp: p2["mp"]})
+ 				  |> Map.put(:player1, p1)
+				end
 		 end
 		 action == 6 ->
 			 cond do
 				 turnp1 ->
-					 Map.put(game, :player1, %{ name: p1["name"], hp: p1["hp"], mp: (p1["mp"] + 20) })
+					 if ((p1["mp"] + 20) > 100) do
+					 Map.put(game, :player1, %{ name: p1["name"], hp: p1["hp"], mp: 100 })
 					  |> Map.put(:player2, p2)
+					else
+						Map.put(game, :player1, %{ name: p1["name"], hp: p1["hp"], mp: (p1["mp"] + 20) })
+ 					  |> Map.put(:player2, p2)
+					end
 				 true ->
-					 Map.put(game, :player2, %{ name: p2["name"], hp: p2["hp"], mp: (p2["mp"] + 20) })
+					 if ((p2["mp"] + 20) > 100) do
+					 Map.put(game, :player2, %{ name: p2["name"], hp: p2["hp"], mp: 100 })
 					  |> Map.put(:player1, p1)
-				 end
+					else
+						Map.put(game, :player2, %{ name: p2["name"], hp: p2["hp"], mp: (p2["mp"] + 20) })
+ 					  |> Map.put(:player1, p1)
+					end
+				end
 	 end
  end
 
@@ -89,28 +109,56 @@ defmodule Fighter.Game do
 	 action == 4 ->
 		 cond do
 			 turnp1 ->
-				 Map.put(game, :player1, %{ name: p1["name"], hp: (p1["hp"] + 55), mp: p1["mp"]})
+				 if ((p1["hp"] + 55) > 500) do
+				 Map.put(game, :player1, %{ name: p1["name"], hp: 500, mp: p1["mp"]})
 				  |> Map.put(:player2, p2)
 					|> Map.put(:p1_items, %{ attack: p1_items["attack"], block: false, mp: p1_items["mp"] })
  				  |> Map.put(:p2_items, p2_items)
+				else
+					Map.put(game, :player1, %{ name: p1["name"], hp: (p1["hp"] + 100), mp: p1["mp"]})
+					 |> Map.put(:player2, p2)
+					 |> Map.put(:p1_items, %{ attack: p1_items["attack"], block: false, mp: p1_items["mp"] })
+					 |> Map.put(:p2_items, p2_items)
+				end
 			 true ->
-				 Map.put(game, :player2, %{ name: p2["name"], hp: (p2["hp"] + 55), mp: p2["mp"] })
+				 if ((p2["hp"] + 55) > 500) do
+				 Map.put(game, :player2, %{ name: p2["name"], hp: 500, mp: p2["mp"] })
 				  |> Map.put(:player1, p1)
 					|> Map.put(:p2_items, %{ attack: p2_items["attack"], block: false, mp: p2_items["mp"] })
  				  |> Map.put(:p1_items, p1_items)
+				else
+					Map.put(game, :player2, %{ name: p2["name"], hp: (p2["hp"] + 100), mp: p2["mp"] })
+					 |> Map.put(:player1, p1)
+					 |> Map.put(:p2_items, %{ attack: p2_items["attack"], block: false, mp: p2_items["mp"] })
+					 |> Map.put(:p1_items, p1_items)
+				end
 		 end
 	 action == 5 ->
 		 cond do
 			 turnp1 ->
+				if ((p1["mp"] + 40) > 100) do
+				 Map.put(game, :player1, %{ name: p1["name"], hp: p1["hp"], mp: 100 })
+				 |> Map.put(:player2, p2)
+				 |> Map.put(:p1_items, %{ attack: p1_items["attack"], block: p1_items["block"], mp: false })
+				 |> Map.put(:p2_items, p2_items)
+			 else
 				 Map.put(game, :player1, %{ name: p1["name"], hp: p1["hp"], mp: (p1["mp"] + 40) })
 				 |> Map.put(:player2, p2)
 				 |> Map.put(:p1_items, %{ attack: p1_items["attack"], block: p1_items["block"], mp: false })
 				 |> Map.put(:p2_items, p2_items)
+			 end
 			 true ->
+				if ((p2["mp"] + 40) > 100) do
+				 Map.put(game, :player2, %{ name: p2["name"], hp: p2["hp"], mp: 100})
+				 |> Map.put(:player1, p1)
+				 |> Map.put(:p2_items, %{ attack: p2_items["attack"], block: p2_items["block"], mp: false })
+				 |> Map.put(:p1_items, p1_items)
+			 else
 				 Map.put(game, :player2, %{ name: p2["name"], hp: p2["hp"], mp: (p2["mp"] + 40)})
 				 |> Map.put(:player1, p1)
 				 |> Map.put(:p2_items, %{ attack: p2_items["attack"], block: p2_items["block"], mp: false })
 				 |> Map.put(:p1_items, p1_items)
+			 end
 		 end
 	 end
  end
