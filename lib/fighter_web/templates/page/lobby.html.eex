@@ -26,7 +26,7 @@
       <%= for {key, value} <- @sessions do %>
 	  <tr>
         <td><%= key %></td>
-        <td><%= value.player1["name"] %>, <%= value.player2["name"]%></td>
+        <td><%= value.player1.name %>, <%= value.player2.name %></td>
 	  </tr>
 	  <% end %>
 	</table>

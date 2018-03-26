@@ -11,9 +11,9 @@ class Fighter extends React.Component {
     super(props);
     this.channel = props.channel;
     this.state = {
-      turnp1: true, //is it player1's turn
       p1_status: 0,
       p2_status: 0,
+      turnp1: true, //is it player1's turn
       player1: { name: "-waiting-", hp: 500, mp: 100 },
       player2: { name: "-waiting-", hp: 500, mp: 100 },
       p1_items: { attack: true, block: true, mp: true },
@@ -27,9 +27,17 @@ class Fighter extends React.Component {
     }
 
     componentWillMount() {
-      this.channel.on("attack", payload => {
+      this.channel.on("action_broadcast", payload => {
              this.setState(payload);
+             setTimeout(() => {
+                  // Any move should come to rest even if the action
+                  // value stored in backend is not 0
+                   this.setState({ p1_status: 0, p2_status: 0});
+                 }, 1000)
         })
+
+      // Intial state is not stuck in an action
+      this.setState({ p1_status: 0, p2_status: 0});
     }
 
     gotView(view) {
@@ -62,34 +70,40 @@ class Fighter extends React.Component {
     sendAction(action) {
       this.assignPlayersIfUnassigned()
       if(this.turnForPlayer(this.state.turnp1)){
-         // Back end
          this.performAction(action)
-         // Front end
-         this.changeStatus(action)
       }
     }
 
     performAction(action)  {
-      this.channel.push("attack", {
-        player1: this.state.player1 ,
-        player2: this.state.player2 ,
-        turnp1: this.state.turnp1 })
-      //   .receive("ok", this.gotView.bind(this));
+      if(this.state.turnp1){
+        this.channel.push("action", {
+          player1: this.state.player1 ,
+          player2: this.state.player2 ,
+          p1_items: this.state.p1_items ,
+          p2_items: this.state.p2_items ,
+          turnp1: this.state.turnp1,
+          action: action,
+          p1_status: action,
+          p2_status: 0})
+      } else {
+        this.channel.push("action", {
+          player1: this.state.player1 ,
+          player2: this.state.player2 ,
+          p1_items: this.state.p1_items ,
+          p2_items: this.state.p2_items ,
+          turnp1: this.state.turnp1,
+          action: action,
+          p1_status: 0,
+          p2_status: action})
+      }
     }
 
-    changeStatus(action, player) {
-      var status
-      if(this.state.turnp1){
-        this.setState({ p1_status: action});
-        setTimeout(() => {
-           this.setState({ p1_status: 0});
-          }, 1000)
-      } else {
-        this.setState({ p2_status: action});
-        setTimeout(() => {
-           this.setState({ p2_status: 0});
-          }, 1000)
-      }
+    myItems() {
+        if(this.state.player1.name == this.props.currentPlayer){
+          return this.state.p1_items
+         } else {
+          return this.state.p2_items
+        }
     }
 
 
@@ -157,13 +171,13 @@ his tutorial is not used as it doesn't apply. */
                </div>
                <div className="bottom-menu">
                  <div className="battle-text-text-box-left">
-                   { this.state.p1_items.attack ? (
+                   { this.myItems().attack ? (
                      <Button className="attack-boost-button" color="warning" size="sm" onClick={ () => {this.sendAction(3);} }>Attack Boost</Button>
                    ) : (<h5></h5>)}
-                   { this.state.p1_items.block ? (
+                   { this.myItems().block ? (
                      <Button className="block-boost-button" color="warning" size="sm" onClick={ () => {this.sendAction(4);} }>Block Boost</Button>
                    ) : (<h5></h5>)}
-                   { this.state.p1_items.mp ? (
+                   { this.myItems().mp ? (
                      <Button className="stamina-boost-button" color="warning" size="sm" onClick={ () => {this.sendAction(5);} }>Stamina Boost</Button>
                    ) : (<h5></h5>)}
                  </div>

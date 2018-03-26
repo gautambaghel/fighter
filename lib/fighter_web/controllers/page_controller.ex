@@ -7,6 +7,7 @@ defmodule FighterWeb.PageController do
 
   def lobby(conn, _params) do
     sessions = Fighter.GameBackup.get_state
+    IO.inspect(sessions) 
     render conn, "lobby.html" , sessions: sessions
   end
 
