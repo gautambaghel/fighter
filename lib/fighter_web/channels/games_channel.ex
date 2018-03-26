@@ -17,14 +17,17 @@ defmodule FighterWeb.GamesChannel do
 
   def handle_in("action", %{"player1" => p1, "player2" => p2, "p1_items" => p1_items,
                 "p2_items" => p2_items, "turnp1" => turnp1, "action" => action,
-                "p1_status" => p1_status, "p2_status" => p2_status,}, socket) do
+                "p1_status" => p1_status, "p2_status" => p2_status}, socket) do
      game = Game.recieve_action(socket.assigns[:game], p1, p2, p1_items, p2_items,
      turnp1, action, p1_status, p2_status)
      Fighter.GameBackup.save(socket.assigns[:name], game)
      broadcast socket, "action_broadcast", game
      {:noreply, socket}
-     # socket = assign(socket, :game, game)
-     # {:reply, {:ok, %{ "game" => Game.client_view(game)}}, socket}
+  end
+
+  def handle_in("winner", payload, socket) do
+    broadcast socket, "winner_reciever", payload
+    {:noreply, socket}
   end
 
   # Channels can be used in a request/response fashion

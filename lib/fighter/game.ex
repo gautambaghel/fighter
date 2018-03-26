@@ -27,7 +27,7 @@ defmodule Fighter.Game do
 			 |> Map.put(:p1_status, p1_status)
 			 |> Map.put(:p2_status, p2_status)
 
-		 action == 3 || action == 4 || action == 5 ->				  
+		 action == 3 || action == 4 || action == 5 ->
 			 use_item(game, p1, p2, p1_items, p2_items, turnp1, action)
 			 |> Map.put(:turnp1, !turnp1)
 			 |> Map.put(:p1_status, p1_status)

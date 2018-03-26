@@ -21,12 +21,22 @@
 	  <tr>
 	    <th>Name</th>
 	    <th>Players</th>
+	    <th>Winner</th>
 	  </tr>
 
       <%= for {key, value} <- @sessions do %>
 	  <tr>
         <td><%= key %></td>
         <td><%= value.player1.name %>, <%= value.player2.name %></td>
+				<td><%= cond do %>
+				 <% value.player1.hp <= 0 || value.player1.mp <= 0 -> %>
+				 	<%=  value.player2.name %>
+				 <% value.player2.hp <= 0 || value.player2.mp <= 0 -> %>
+				 	<%=  value.player1.name %>
+				 <% true -> %>
+           --Still going on--
+        <% end %>
+				</td>
 	  </tr>
 	  <% end %>
 	</table>

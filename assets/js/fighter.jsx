@@ -29,6 +29,7 @@ class Fighter extends React.Component {
     componentWillMount() {
       this.channel.on("action_broadcast", payload => {
              this.setState(payload);
+             this.checkIfGameFinished();
              setTimeout(() => {
                   // Any move should come to rest even if the action
                   // value stored in backend is not 0
@@ -36,8 +37,26 @@ class Fighter extends React.Component {
                  }, 1000)
         })
 
+      this.channel.on("winner_reciever", payload => {
+               alert(payload.msg);
+               window.location.href = "/lobby";
+        })
+
       // Intial state is not stuck in an action
       this.setState({ p1_status: 0, p2_status: 0});
+    }
+
+
+    componentDidMount() {
+      this.checkIfGameFinished();
+    }
+
+    checkIfGameFinished() {
+      if (this.state.player1.hp <= 0 || this.state.player1.mp <= 0) {
+          this.channel.push("winner", {msg: this.state.player2.name + " won!"});
+      } else if (this.state.player2.hp <= 0 || this.state.player2.mp <= 0) {
+          this.channel.push("winner", {msg: this.state.player1.name + " won!"});
+      }
     }
 
     gotView(view) {
