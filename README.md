@@ -66,6 +66,7 @@ The guide for this project is listed here - see the [Guide](http://www.ccs.neu.e
 ## Notes
 
 The notes for this project is listed here - see the [Notes](http://www.ccs.neu.edu/home/ntuck/courses/2018/01/cs4550/notes/) file for details
+Sources for the fighter characters: [Fighter 1](http://photobucket.com/gallery/user/Agilufo/media/bWVkaWFJZDoxMTgyNjg5Mw==/?ref=) and [Fighter 2](https://www.spriters-resource.com/game_boy_advance/sfalpha3/sheet/5511/)
 
 ## Acknowledgments
 
